@@ -104,8 +104,9 @@
             "type": "prometheus",
             "uid": "prometheus"
           },
-          "expr": "max(iris_app_info) by (version)",
-          "instant": true
+          "expr": "iris_app_info{job=\"iris-app\"}",
+          "instant": true,
+          "legendFormat": "build #{{version}}"
         }
       ],
       "options": {
@@ -116,7 +117,7 @@
         },
         "colorMode": "background",
         "graphMode": "none",
-        "textMode": "value"
+        "textMode": "name"
       },
       "fieldConfig": {
         "defaults": {
