@@ -1,0 +1,29 @@
+groups:
+  - name: iris-app-alerts
+    rules:
+      - alert: IrisAppDown
+        expr: up{job="iris-app"} == 0
+        for: 30s
+        labels: {severity: critical}
+        annotations:
+          summary: "Iris app is not reachable by Prometheus"
+
+      - alert: HighInvalidRequestRate
+        expr: rate(iris_invalid_requests_total[1m]) > 0.5
+        for: 30s
+        labels: {severity: warning}
+        annotations:
+          summary: "More than 0.5 invalid prediction requests per second"
+
+      - alert: SlowPredictions
+        expr: histogram_quantile(0.95, sum(rate(iris_request_latency_seconds_bucket{endpoint="/api/predict"}[1m])) by (le)) > 0.5
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: "95th percentile prediction latency above 0.5 s"
+
+      - alert: LowModelAccuracy
+        expr: iris_model_accuracy < 0.9
+        labels: {severity: critical}
+        annotations:
+          summary: "Deployed model accuracy is below the 0.90 quality gate"

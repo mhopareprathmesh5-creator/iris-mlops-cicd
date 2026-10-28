@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iris Species Predictor</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6fb; margin: 0; color: #1f2937; }
+    .card { max-width: 460px; margin: 48px auto; background: #fff; border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.08); padding: 28px 32px; }
+    h1 { font-size: 22px; margin: 0 0 4px; color: #1f3864; }
+    .sub { color: #6b7280; font-size: 13px; margin-bottom: 20px; }
+    label { display: block; font-size: 14px; margin: 12px 0 4px; }
+    input { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+    button { margin-top: 18px; width: 100%; padding: 10px; background: #2f5597; color: #fff; border: 0;
+             border-radius: 6px; font-size: 15px; cursor: pointer; }
+    .result { margin-top: 20px; padding: 14px; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; }
+    .error { margin-top: 20px; padding: 14px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; color: #991b1b; }
+    .foot { margin-top: 18px; font-size: 12px; color: #9ca3af; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Iris Species Predictor</h1>
+    <div class="sub">Random Forest model &middot; enter the flower measurements in cm</div>
+    <form method="post" action="/predict">
+      <label>Sepal length <input name="sepal_length" value="{{ form.sepal_length if form else '5.1' }}"></label>
+      <label>Sepal width <input name="sepal_width" value="{{ form.sepal_width if form else '3.5' }}"></label>
+      <label>Petal length <input name="petal_length" value="{{ form.petal_length if form else '1.4' }}"></label>
+      <label>Petal width <input name="petal_width" value="{{ form.petal_width if form else '0.2' }}"></label>
+      <button type="submit">Predict species</button>
+    </form>
+    {% if result %}
+    <div class="result"><b>Predicted species: {{ result.species }}</b><br>
+      Confidence {{ "%.0f"|format(result.confidence * 100) }}%</div>
+    {% endif %}
+    {% if error %}<div class="error">Invalid input: {{ error }}</div>{% endif %}
+    <div class="foot">version {{ version }} &middot; model test accuracy {{ "%.3f"|format(accuracy) }}</div>
+  </div>
+</body>
+</html>

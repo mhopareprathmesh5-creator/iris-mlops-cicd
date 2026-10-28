@@ -1,0 +1,12 @@
+.git/
+.venv/
+venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+app/model.joblib
+monitoring/
+scripts/
+*.bat
+*_output.txt
+part1_setup.bat
