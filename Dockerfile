@@ -22,4 +22,5 @@ USER appuser
 EXPOSE 5000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "app.app:app"]
+# one worker process (4 threads) so all requests share one Prometheus metrics registry
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--threads", "4", "app.app:app"]
