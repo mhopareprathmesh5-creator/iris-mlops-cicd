@@ -16,7 +16,9 @@ VIRGINICA = {"sepal_length": 6.9, "sepal_width": 3.1, "petal_length": 5.4, "peta
 
 def test_health(client):
     r = client.get("/health")
-    assert r.status_code == 200 and r.get_json()["status"] == "ok"
+    body = r.get_json()
+    assert r.status_code == 200 and body["status"] == "ok"
+    assert body["model"] == "RandomForestClassifier"
 
 
 def test_home_page_has_form(client):

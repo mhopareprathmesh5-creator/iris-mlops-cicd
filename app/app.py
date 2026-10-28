@@ -87,7 +87,8 @@ def predict_api():
 
 @app.route("/health")
 def health():
-    return jsonify({"status": "ok", "version": APP_VERSION, "model_accuracy": round(model_accuracy, 3)})
+    return jsonify({"status": "ok", "version": APP_VERSION, "model": "RandomForestClassifier",
+                    "model_accuracy": round(model_accuracy, 3)})
 
 
 @app.route("/metrics")
